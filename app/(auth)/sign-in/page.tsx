@@ -10,14 +10,14 @@ const SignIn = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<SignUpFormData>({
+  } = useForm<SignInFormData>({
     defaultValues: {
       email: '',
       password: ''
     },
     mode: 'onBlur'
   })
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: SignInFormData) => {
     try {
       console.log(data)
     } catch (e) {

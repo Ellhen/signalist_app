@@ -40,7 +40,7 @@ const SignUp = () => {
 
   return (
     <>
-      <h1 className="form-title">Sigh Up & Personalize</h1>
+      <h1 className="form-title">Sign Up & Personalize</h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -99,7 +99,7 @@ const SignUp = () => {
         <SelectField
           name="riskTolerance"
           label="Risk Tolerance"
-          placeholder="Select your risk lavel"
+          placeholder="Select your risk level"
           options={RISK_TOLERANCE_OPTIONS}
           control={control}
           error={errors.riskTolerance}
