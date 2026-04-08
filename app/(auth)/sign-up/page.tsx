@@ -1,18 +1,22 @@
 'use client'
 
-import { CountrySelectField } from '@/components/forms/CountrySelectField'
-import FooterLink from '@/components/forms/FooterLink'
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
 import InputField from '@/components/forms/InputField'
 import SelectField from '@/components/forms/SelectField'
-import { Button } from '@/components/ui/button'
 import {
   INVESTMENT_GOALS,
   PREFERRED_INDUSTRIES,
   RISK_TOLERANCE_OPTIONS
 } from '@/lib/constants'
-import { useForm } from 'react-hook-form'
+import { CountrySelectField } from '@/components/forms/CountrySelectField'
+import FooterLink from '@/components/forms/FooterLink'
+import { signUpWithEmail } from '@/lib/actions/auth.actions'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const SignUp = () => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -30,11 +34,17 @@ const SignUp = () => {
     },
     mode: 'onBlur'
   })
+
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      console.log(data)
+      const result = await signUpWithEmail(data)
+      if (result.success) router.push('/')
     } catch (e) {
-      console.log(e)
+      console.error(e)
+      toast.error('Sign up failed', {
+        description:
+          e instanceof Error ? e.message : 'Failed to create an account.'
+      })
     }
   }
 
@@ -44,7 +54,7 @@ const SignUp = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-5 "
+        className="space-y-5"
       >
         <InputField
           name="fullName"
@@ -57,7 +67,7 @@ const SignUp = () => {
 
         <InputField
           name="email"
-          label="Email "
+          label="Email"
           placeholder="contact@example.com"
           register={register}
           error={errors.email}
@@ -125,7 +135,7 @@ const SignUp = () => {
         </Button>
 
         <FooterLink
-          text="Already have an account"
+          text="Already have an account?"
           linkText="Sign in"
           href="/sign-in"
         />
@@ -133,5 +143,4 @@ const SignUp = () => {
     </>
   )
 }
-
 export default SignUp

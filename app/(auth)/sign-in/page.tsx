@@ -1,11 +1,15 @@
 'use client'
 
-import FooterLink from '@/components/forms/FooterLink'
-import InputField from '@/components/forms/InputField'
-import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import InputField from '@/components/forms/InputField'
+import FooterLink from '@/components/forms/FooterLink'
+import { signInWithEmail } from '@/lib/actions/auth.actions'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const SignIn = () => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -17,11 +21,16 @@ const SignIn = () => {
     },
     mode: 'onBlur'
   })
+
   const onSubmit = async (data: SignInFormData) => {
     try {
-      console.log(data)
+      const result = await signInWithEmail(data)
+      if (result.success) router.push('/')
     } catch (e) {
-      console.log(e)
+      console.error(e)
+      toast.error('Sign in failed', {
+        description: e instanceof Error ? e.message : 'Failed to sign in.'
+      })
     }
   }
 
@@ -31,11 +40,11 @@ const SignIn = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-5 "
+        className="space-y-5"
       >
         <InputField
           name="email"
-          label="Email "
+          label="Email"
           placeholder="contact@example.com"
           register={register}
           error={errors.email}
@@ -64,7 +73,7 @@ const SignIn = () => {
         </Button>
 
         <FooterLink
-          text="Don’t have an account? "
+          text="Don't have an account?"
           linkText="Create an account"
           href="/sign-up"
         />
@@ -72,5 +81,4 @@ const SignIn = () => {
     </div>
   )
 }
-
 export default SignIn
