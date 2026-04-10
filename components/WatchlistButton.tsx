@@ -1,8 +1,6 @@
 'use client'
 import React, { useMemo, useState } from 'react'
 
-
-
 const WatchlistButton = ({
   symbol,
   isInWatchlist,
