@@ -41,7 +41,14 @@ export default function WatchlistTable({
       </TableHeader>
 
       <TableBody>
-        {rows.map(stock => (
+        {rows.length === 0 ? (
+          <TableRow>
+            <TableCell className="py-6 text-center text-purple-100/70" colSpan={8}>
+              No watchlist items yet.
+            </TableCell>
+          </TableRow>
+        ) : (
+          rows.map(stock => (
           <TableRow
             key={stock._id}
             className="relative overflow-hidden rounded-lg border-b border-purple-100/5 hover:bg-dark-400/30"
@@ -57,7 +64,8 @@ export default function WatchlistTable({
             <TableCell className="py-4 text-left">-</TableCell>
             <TableCell className="py-4 text-left last:pr-5"></TableCell>
           </TableRow>
-        ))}
+          ))
+        )}
       </TableBody>
     </Table>
   )
